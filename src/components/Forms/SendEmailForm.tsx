@@ -1,5 +1,26 @@
 import { FormEvent, useState } from 'react';
-import { Button ,message } from 'antd'
+import { Button ,message, Upload, UploadFile } from 'antd'
+import type { UploadProps } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+
+const props: UploadProps = {
+    name: 'file',
+    action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
+    headers: {
+        authorization: 'authorization-text',
+    },
+    onChange(info) {
+        if (info.file.status !== 'uploading') {
+        console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+        }
+    },
+};
+  
 
 const SendEmailForm = () => {
     const [loading, setLoading] = useState(false);
@@ -64,14 +85,9 @@ const SendEmailForm = () => {
                     </div>
                 </div>
                 <div className="mx-0 mb-1 sm:mb-4">
-                    <label className="pb-1 text-xs uppercase tracking-wider "></label>
-                    <textarea
-                        id="message"
-                        name="message"  
-                        placeholder="Escribe un mensaje..."
-                        className="mb-2 w-full rounded-md border border-gray-400 py-2 pl-2 pr-4 shadow-md dark:text-gray-300 sm:mb-0"
-                        onChange={handleChange}  
-                    ></textarea>
+                <Upload {...props}>
+                    <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                </Upload>
                 </div>
                 <div className="text-center">   
                     <Button 
