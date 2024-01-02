@@ -8,8 +8,7 @@ const SendEmailForm = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        message: '',
-        file: undefined,
+        file: undefined as File | undefined,
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -35,16 +34,19 @@ const SendEmailForm = () => {
         const formDataToSend = new FormData();
         formDataToSend.append('name', formData.name);
         formDataToSend.append('email', formData.email);
-        formDataToSend.append('message', formData.message);
-        formDataToSend.append('file', formData.file);
+        if (formData.file) {
+            formDataToSend.append('file', formData.file);
+        }
 
         setLoading(false)
         message.success("Factura enviada con exito")
 
-        const response = await fetch('https://tecniservicios-backend.onrender.com/send-email', {
+        const response = await fetch('http://localhost:1000/send-email', {
             method: 'POST',
             body: formDataToSend,
         });
+
+        console.log(response)
     };
 
     const props: UploadProps = {
