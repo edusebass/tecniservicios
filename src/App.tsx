@@ -10,8 +10,7 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route path="home" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="sendemail" element={<SendEmailPage />} />
         </Routes>
       </Router>
