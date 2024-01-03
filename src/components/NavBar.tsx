@@ -52,27 +52,17 @@ function Navbar() {
                             >
                                 Inicio
                             </a>
-                            {/* <a
-                                className="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none focus:shadow-outline border-b sm:border-none w-full text-center duration-300"
-                                href="#"
-                                onClick={toggleMenu}
-                            >
-                                Productos
-                            </a>
-                            <a
-                                className="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none focus:shadow-outline border-b sm:border-none w-full text-center duration-300"
-                                href="#"
-                                onClick={toggleMenu}
-                            >
-                                Marcas
-                            </a> */}
                             <a
                                 className="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none focus:shadow-outline w-full text-center duration-300 border-b sm:border-none"
-                                // href="/enviarCorreo"
-                                // onClick={toggleMenu}
                                 onClick={() => goToPage("/sendemail")}
                             >
-                                Enviar correo
+                                Enviar al correo
+                            </a>
+                            <a
+                                className="px-4 py-3 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none focus:shadow-outline w-full text-center duration-300 border-b sm:border-none"
+                                onClick={() => goToPage("/sendPhone")}
+                            >
+                                Enviar al celular
                             </a>
                             <button className="rounded-lg sm:hidden focus:outline-none focus:shadow-outline flex items-center justify-center rotate-180 w-full" onClick={toggleMenu}>
                                 <svg fill="currentColor" viewBox="0 0 20 20" className="w-8 h-8">
