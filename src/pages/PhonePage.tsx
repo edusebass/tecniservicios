@@ -5,7 +5,7 @@ import { Input, Button } from 'antd';
 const PhonePage = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
 
-    const handleInputChange = (e) => {
+    const handleInputChange = (e:any) => {
         setPhoneNumber(e.target.value);
     };
 
