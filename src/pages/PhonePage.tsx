@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Navbar from '../components/NavBar';
 import { Input, Button } from 'antd';
 
 const PhonePage = () => {
@@ -22,8 +21,6 @@ const PhonePage = () => {
 
     return (
         <>
-        <Navbar />
-
         <div className="mx-32 mt-11">
             <Input placeholder="Ingrese su número de teléfono" onChange={handleInputChange} />
             <Button type="primary" className="bg-blue-900 mt-5" onClick={openWhatsAppChat}>
