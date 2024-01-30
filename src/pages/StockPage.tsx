@@ -170,15 +170,26 @@ const StockPage: React.FC = () => {
 
     return (
         <main className='m-10'>
-            <Button type='primary' ghost>
-                Añadir
+            <div className='flex flex-row'>
+                <Form.Item label="Ancho" style={{marginLeft:"1rem"}}>
+                    <Input placeholder="input placeholder" />
+                </Form.Item >
+                <Form.Item label="Altura" style={{marginLeft:"1rem"}}>
+                    <Input placeholder="input placeholder" />
+                </Form.Item >
+                <Form.Item label="Rin" style={{marginLeft:"1rem"}}>
+                    <Input placeholder="input placeholder" />
+                </Form.Item>
+            </div>
+            <Button type='primary' ghost className='mb-6'>
+                Añadir llanta
             </Button>
             <Form form={form} component={false}>
                 <Table
                     components={{
-                    body: {
-                        cell: EditableCell,
-                    },
+                        body: {
+                            cell: EditableCell,
+                        },
                     }}
                     bordered
                     dataSource={data}
@@ -187,7 +198,7 @@ const StockPage: React.FC = () => {
                     pagination={{
                         onChange: cancel,
                     }}
-                    />
+                />
             </Form>
         </main>
     );
