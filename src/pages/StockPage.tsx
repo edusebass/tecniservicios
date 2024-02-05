@@ -81,6 +81,12 @@ const TableComponent: React.FC = () => {
     }, [filterValues, data]);
 
     const edit = (record: Partial<Item> & { _id: string }) => {
+        // setea los valores en las celdas para editar
+        form.setFieldsValue({ ...record });
+        setEditingKey(record._id);
+    };
+
+    const deleteRow = (record: Partial<Item> & { _id: string }) => {
         form.setFieldsValue({ ...record });
         setEditingKey(record._id);
     };
@@ -133,7 +139,7 @@ const TableComponent: React.FC = () => {
     
     const handleAddProduct = async (values: Item) => {
         try {
-            // await productosApi.agregarProducto(values);
+            await productosApi.añadirProducto(values);
 
             const newData = [...data, values];
             setData(newData);
@@ -147,7 +153,7 @@ const TableComponent: React.FC = () => {
     };
 
   // Columnas de la tabla
-  const columns = [
+    const columns = [
     {
         title: 'Marca',
         dataIndex: 'marca',
@@ -187,27 +193,32 @@ const TableComponent: React.FC = () => {
     {
         title: 'Costo',
         dataIndex: 'costo',
-        width: '10%',
+        width: '5%',
         editable: true,
     },
     {
-        title: 'operation',
+        title: 'Acciones',
         dataIndex: 'operation',
         render: (_: any, record: Item) => {
             const editable = isEditing(record);
             return editable ? (
             <span>
                 <Typography.Link onClick={() => save(record._id)} style={{ marginRight: 8 }}>
-                Save
+                    Save
                 </Typography.Link>
-                <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-                <a>Cancel</a>
+                <Popconfirm title="Sure to cancel?" onConfirm={cancel} okButtonProps={{className: "bg-blue-600"}}>
+                    <a>Cancel</a>
                 </Popconfirm>
             </span>
             ) : (
-            <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-                Edit
-            </Typography.Link>
+                <>
+                    <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)} className='mr-10'>
+                        Editar
+                    </Typography.Link>
+                    <Typography.Link disabled={editingKey !== ''} onClick={() => deleteRow(record)}>
+                        Eliminar
+                    </Typography.Link>
+                </>
             );
         },
     },

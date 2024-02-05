@@ -32,13 +32,31 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
             okButtonProps={{className: "bg-blue-600"}}
         >
             <Form form={form} layout="vertical">
-                <Form.Item label="Marca" name="marca" rules={[{ required: true, message: 'Por favor, ingrese la marca' }]}>
+                <Form.Item label="Marca" name="marca">
                     <Input />
                 </Form.Item>
-                <Form.Item label="Labrado" name="labrado" rules={[{ required: true, message: 'Por favor, ingrese el labrado' }]}>
+                <Form.Item label="Labrado" name="labrado">
                     <Input />
                 </Form.Item>
-                {/* Agrega Form.Item para otros campos del nuevo producto */}
+                <Form.Item label="Caracteristicas" name="caracteristicas">
+                    <Input />
+                </Form.Item>
+                <Form.Item label="Alto" name="alto">
+                    <Input />
+                </Form.Item>
+                <Form.Item label="Ancho" name="ancho">
+                    <Input />
+                </Form.Item>
+                <Form.Item label="Rin" name="rin">
+                    <Input />
+                </Form.Item>
+                <Form.Item label="Costo" name="costo">
+                    <Input />
+                </Form.Item>
+                <Form.Item label="Cantidad" name="cantidad">
+                    <Input />
+                </Form.Item>
+                
             </Form>
         </Modal>
     );
