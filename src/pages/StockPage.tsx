@@ -30,7 +30,9 @@ const TableComponent: React.FC = () => {
     });
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const isEditing = (record: Item) => record._id === editingKey;
+    const isEditing = (record: Item) => editingKey === record._id;
+
+
 
     // constantes para modal
     const showModal = () => {
@@ -78,10 +80,13 @@ const TableComponent: React.FC = () => {
         filterTableData();
     }, [filterValues, data]);
 
-    const edit = (record: Partial<Item> & { _id: React.Key }) => {
+    const edit = (record: Partial<Item> & { _id: string }) => {
         form.setFieldsValue({ ...record });
         setEditingKey(record._id);
     };
+    
+    
+    
 
     const handleInputChange = (name: string, value: string) => {
         setFilterValues({
@@ -105,35 +110,26 @@ const TableComponent: React.FC = () => {
         setEditingKey('');
     };
 
-    const save = async (_id: React.Key) => {
+    const save = async (_id: string) => {
         try {
             const row = (await form.validateFields()) as Item;
-
-            const newData = [...data];
-            const index = newData.findIndex((item) => _id === item._id);
-            if (index > -1) {
-                const item = newData[index];
-                newData.splice(index, 1, {
-                ...item,
-                ...row,
-                });
-
-                await productosApi.editarProducto(item._id, row);
-
-                setData(newData);
-                setEditingKey('');
-            } else {
-                newData.push(row);
-                setData(newData);
-                setEditingKey('');
-            }
-            message.success("Producto editado")
-
+    
+            setData((prevData) =>
+                prevData.map((item) => (item._id === _id ? { ...item, ...row } : item))
+            );
+    
+            await productosApi.editarProducto(_id, row);
+    
+            setEditingKey('');
+            message.success('Producto editado');
         } catch (errInfo) {
             console.log('Validate Failed:', errInfo);
-            message.error("roducto no editado")
+            message.error('Producto no editado');
         }
+        console.log(editingKey)
     };
+    
+    
     
     const handleAddProduct = async (values: Item) => {
         try {
@@ -286,7 +282,7 @@ const TableComponent: React.FC = () => {
 
 
             <Table
-                loading={loadingTable}
+                // loading={loadingTable}
                 components={{
                     body: {
                     cell: EditableCell,

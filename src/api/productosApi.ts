@@ -7,9 +7,9 @@ const listarProductos = async () => {
     return response.json();
 };
 
-const editarProducto = async (key: string, data: any) => {
+const editarProducto = async (_id: string, data: any) => {
     // Lógica para editar un producto en la API
-    await apiUtils.putData(`http://localhost:1000/api/productos/${key}`, data);
+    await apiUtils.putData(`http://localhost:1000/api/productos/${_id}`, data);
 };
 
 const añadirProducto = async ( data: any) => {
