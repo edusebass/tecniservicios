@@ -1,156 +1,221 @@
-import React, { useState } from 'react';
-import { Button, Form, Input, InputNumber, Popconfirm, Space, Table, Typography } from 'antd';
+// components/TableComponent.tsx
+import React, { useEffect, useState } from 'react';
+import { Button, Form, Input, Popconfirm, Table, Typography, message } from 'antd';
+import { productosApi } from '../api/productosApi';
+import EditableCell from '../components/EditableCell';
+import AddProductModal from '../components/AddProductModal';
 
 interface Item {
-    key: string;
-    name: string;
-    age: number;
-    address: string;
+    _id: string;
+    marca: string;
+    labrado: string;
+    caracteristicas: string;
+    alto: string;
+    ancho: string;
+    rin: string;
+    costo: string;
 }
 
-const originData: Item[] = [];
-    for (let i = 0; i < 100; i++) {
-        originData.push({
-            key: i.toString(),
-            name: `Edward ${i}`,
-            age: 32,
-            address: `London Park no. ${i}`,
-    });
-}
-interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
-    editing: boolean;
-    dataIndex: string;
-    title: any;
-    inputType: 'number' | 'text';
-    record: Item;
-    index: number;
-    children: React.ReactNode;
-}
-
-const EditableCell: React.FC<EditableCellProps> = ({
-    editing,
-    dataIndex,
-    title,
-    inputType,
-    record,
-    index,
-    children,
-    ...restProps
-    }) => {
-    const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
-
-    return (
-        <td {...restProps}>
-        {editing ? (
-            <Form.Item
-            name={dataIndex}
-            style={{ margin: 0 }}
-            rules={[
-                {
-                required: true,
-                message: `Please Input ${title}!`,
-                },
-            ]}
-            >
-            {inputNode}
-            </Form.Item>
-        ) : (
-            children
-        )}
-        </td>
-    );
-};
-
-const StockPage: React.FC = () => {
+const TableComponent: React.FC = () => {
+    const originData: Item[] = [];
+    const [loadingTable, setLoadingTable] = useState(false);
     const [form] = Form.useForm();
     const [data, setData] = useState(originData);
     const [editingKey, setEditingKey] = useState('');
+    const [filteredData, setFilteredData] = useState<Item[]>([]);
+    const [filterValues, setFilterValues] = useState({
+        ancho: '',
+        alto: '',
+        rin: '',
+    });
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const isEditing = (record: Item) => record.key === editingKey;
+    const isEditing = (record: Item) => record._id === editingKey;
 
-    const edit = (record: Partial<Item> & { key: React.Key }) => {
-        form.setFieldsValue({ name: '', age: '', address: '', ...record });
-        setEditingKey(record.key);
+    // constantes para modal
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+        try {
+            setLoadingTable(true);
+            const newData = await productosApi.listarProductos();
+            console.log(newData)
+            const columnData = newData.map((item: Item) => ({
+            _id: item._id,
+            marca: item.marca,
+            labrado: item.labrado,
+            caracteristicas: item.caracteristicas,
+            alto: item.alto,
+            ancho: item.ancho,
+            rin: item.rin,
+            costo: item.costo,
+            }));
+
+            originData.length = 0;
+            originData.push(...columnData);
+            setData([...columnData]);
+            setLoadingTable(false);
+        } catch (error) {
+            console.log('Error al obtener datos:', error);
+        }
+        };
+
+        fetchData();
+
+        return () => {
+        originData.length = 0;
+        };
+    }, []);
+
+    useEffect(() => {
+        filterTableData();
+    }, [filterValues, data]);
+
+    const edit = (record: Partial<Item> & { _id: React.Key }) => {
+        form.setFieldsValue({ ...record });
+        setEditingKey(record._id);
+    };
+
+    const handleInputChange = (name: string, value: string) => {
+        setFilterValues({
+        ...filterValues,
+        [name]: value,
+        });
+    };
+
+    const filterTableData = () => {
+        const filtered = data.filter((item) => {
+        return (
+            item.ancho.toString().includes(filterValues.ancho) &&
+            item.alto.toString().includes(filterValues.alto) &&
+            item.rin.toString().includes(filterValues.rin)
+        );
+        });
+        setFilteredData(filtered);
     };
 
     const cancel = () => {
         setEditingKey('');
     };
 
-    const save = async (key: React.Key) => {
+    const save = async (_id: React.Key) => {
         try {
-        const row = (await form.validateFields()) as Item;
+            const row = (await form.validateFields()) as Item;
 
-        const newData = [...data];
-        const index = newData.findIndex((item) => key === item.key);
-        if (index > -1) {
-            const item = newData[index];
-            newData.splice(index, 1, {
-            ...item,
-            ...row,
-            });
-            setData(newData);
-            setEditingKey('');
-        } else {
-            newData.push(row);
-            setData(newData);
-            setEditingKey('');
-        }
+            const newData = [...data];
+            const index = newData.findIndex((item) => _id === item._id);
+            if (index > -1) {
+                const item = newData[index];
+                newData.splice(index, 1, {
+                ...item,
+                ...row,
+                });
+
+                await productosApi.editarProducto(item._id, row);
+
+                setData(newData);
+                setEditingKey('');
+            } else {
+                newData.push(row);
+                setData(newData);
+                setEditingKey('');
+            }
+            message.success("Producto editado")
+
         } catch (errInfo) {
-        console.log('Validate Failed:', errInfo);
+            console.log('Validate Failed:', errInfo);
+            message.error("roducto no editado")
+        }
+    };
+    
+    const handleAddProduct = async (values: Item) => {
+        try {
+            // await productosApi.agregarProducto(values);
+
+            const newData = [...data, values];
+            setData(newData);
+
+            setIsModalVisible(false);
+            message.success("Producto añadido correctamente");
+        } catch (error) {
+            console.error('Error al añadir el producto:', error);
+            message.error("Error al añadir el producto");
         }
     };
 
-    const columns = [
-        {
-            title: 'name',
-            dataIndex: 'name',
-            width: '25%',
-            editable: true,
+  // Columnas de la tabla
+  const columns = [
+    {
+        title: 'Marca',
+        dataIndex: 'marca',
+        width: '15%',
+        editable: true,
+    },
+    {
+        title: 'Labrado',
+        dataIndex: 'labrado',
+        width: '15%',
+        editable: true,
+    },
+    {
+        title: 'Características',
+        dataIndex: 'caracteristicas',
+        width: '20%',
+        editable: true,
+    },
+    {
+        title: 'Alto',
+        dataIndex: 'alto',
+        width: '10%',
+        editable: true,
+    },
+    {
+        title: 'Ancho',
+        dataIndex: 'ancho',
+        width: '10%',
+        editable: true,
+    },
+    {
+        title: 'Rin',
+        dataIndex: 'rin',
+        width: '10%',
+        editable: true,
+    },
+    {
+        title: 'Costo',
+        dataIndex: 'costo',
+        width: '10%',
+        editable: true,
+    },
+    {
+        title: 'operation',
+        dataIndex: 'operation',
+        render: (_: any, record: Item) => {
+            const editable = isEditing(record);
+            return editable ? (
+            <span>
+                <Typography.Link onClick={() => save(record._id)} style={{ marginRight: 8 }}>
+                Save
+                </Typography.Link>
+                <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+                <a>Cancel</a>
+                </Popconfirm>
+            </span>
+            ) : (
+            <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
+                Edit
+            </Typography.Link>
+            );
         },
-        {
-            title: 'age',
-            dataIndex: 'age',
-            width: '15%',
-            editable: true,
-        },
-        {
-            title: 'address',
-            dataIndex: 'address',
-            width: '40%',
-            editable: true,
-        },
-        {
-            title: 'operation',
-            dataIndex: 'operation',
-            render: (_: any, record: Item) => {
-                const editable = isEditing(record);
-                return editable ? (
-                    <span>
-                        <Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
-                        Save
-                        </Typography.Link>
-                        <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-                        <a>Cancel</a>
-                        </Popconfirm>
-                    </span>
-                ) : (
-                    <>
-                        <Space size="middle">
-                            <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-                                Edit
-                            </Typography.Link>
-                            <Typography.Link>
-                                Eliminar
-                            </Typography.Link>
-                        </Space>
-                    </>
-                    
-                );
-                
-            },
-        },
-    ];
+    },
+];
 
     const mergedColumns = columns.map((col) => {
         if (!col.editable) {
@@ -168,40 +233,76 @@ const StockPage: React.FC = () => {
         };
     });
 
+    const clearFilters = () => {
+        setFilterValues({
+        ancho: '',
+        alto: '',
+        rin: '',
+        });
+    };
+
+    console.log(data)
     return (
         <main className='m-10'>
+        <Form form={form} component={false}>
             <div className='flex flex-row'>
                 <Form.Item label="Ancho" style={{marginLeft:"1rem"}}>
-                    <Input placeholder="input placeholder" />
-                </Form.Item >
-                <Form.Item label="Altura" style={{marginLeft:"1rem"}}>
-                    <Input placeholder="input placeholder" />
-                </Form.Item >
-                <Form.Item label="Rin" style={{marginLeft:"1rem"}}>
-                    <Input placeholder="input placeholder" />
+                    <Input
+                        placeholder="Ancho"
+                        value={filterValues.ancho}
+                        onChange={(e) => handleInputChange('ancho', e.target.value)}
+                        />
                 </Form.Item>
+
+                <Form.Item label="Alto" style={{marginLeft:"1rem"}}>
+                    <Input
+                        placeholder="Alto"
+                        value={filterValues.alto}
+                        onChange={(e) => handleInputChange('alto', e.target.value)}
+                        />
+                </Form.Item>
+
+                <Form.Item label="Rin" style={{marginLeft:"1rem"}}>
+                    <Input
+                        placeholder="Rin"
+                        value={filterValues.rin}
+                        onChange={(e) => handleInputChange('rin', e.target.value)}
+                    />
+                </Form.Item>
+
+                <Button type='primary' ghost onClick={clearFilters} style={{marginLeft:"1rem"}}>
+                    Limpiar filtro
+                </Button>
             </div>
-            <Button type='primary' ghost className='mb-6'>
-                Añadir llanta
+
+            <Button type='primary' className='bg-blue-600 mb-3' onClick={showModal}>
+                Añadir producto
             </Button>
-            <Form form={form} component={false}>
-                <Table
-                    components={{
-                        body: {
-                            cell: EditableCell,
-                        },
-                    }}
-                    bordered
-                    dataSource={data}
-                    columns={mergedColumns}
-                    rowClassName="editable-row"
-                    pagination={{
-                        onChange: cancel,
-                    }}
-                />
-            </Form>
+            <AddProductModal
+                visible={isModalVisible}
+                onCancel={handleCancel}
+                onAdd={handleAddProduct}
+            />
+
+
+            <Table
+                loading={loadingTable}
+                components={{
+                    body: {
+                    cell: EditableCell,
+                    },
+                }}
+                bordered
+                dataSource={filteredData}
+                columns={mergedColumns}
+                rowClassName='editable-row'
+                pagination={{
+                    onChange: cancel,
+                }}
+            />
+        </Form>
         </main>
     );
 };
 
-export default StockPage;
+export default TableComponent;
