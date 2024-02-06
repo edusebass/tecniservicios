@@ -293,7 +293,7 @@ const TableComponent: React.FC = () => {
 
 
             <Table
-                // loading={loadingTable}
+                loading={loadingTable}
                 components={{
                     body: {
                     cell: EditableCell,

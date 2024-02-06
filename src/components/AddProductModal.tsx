@@ -1,7 +1,6 @@
 // components/AddProductModal.tsx
 import React from 'react';
-import { Button, Form, Input, Modal } from 'antd';
-import { productosApi } from '../api/productosApi';
+import { Form, Input, Modal } from 'antd';
 
 interface AddProductModalProps {
     visible: boolean;
