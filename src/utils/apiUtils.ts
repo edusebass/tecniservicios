@@ -23,8 +23,19 @@ const postData = async (url: string, data: any) => {
     });
 }
 
+const deleteData = async (url: string) => {
+    await fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+}
+
+
 export const apiUtils = {
     fetchData,
     putData,
-    postData
+    postData,
+    deleteData
 };

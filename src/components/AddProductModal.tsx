@@ -40,10 +40,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
                 <Form.Item label="Caracteristicas" name="caracteristicas">
                     <Input />
                 </Form.Item>
-                <Form.Item label="Alto" name="alto">
+                <Form.Item label="Ancho" name="ancho">
                     <Input />
                 </Form.Item>
-                <Form.Item label="Ancho" name="ancho">
+                <Form.Item label="Alto" name="alto">
                     <Input />
                 </Form.Item>
                 <Form.Item label="Rin" name="rin">

@@ -86,10 +86,21 @@ const TableComponent: React.FC = () => {
         setEditingKey(record._id);
     };
 
-    const deleteRow = (record: Partial<Item> & { _id: string }) => {
-        form.setFieldsValue({ ...record });
-        setEditingKey(record._id);
+    const deleteRow = async (record: Partial<Item> & { _id: string }) => {
+        console.log("eliminando el row de id: " + record._id);
+        try {
+            await productosApi.eliminarProducto(record._id);
+            message.success("Producto eliminado con éxito");
+    
+            // Actualizar la lista de productos después de la eliminación
+            const newData = data.filter(item => item._id !== record._id);
+            setData(newData);
+        } catch (error) {
+            console.log(error);
+            message.error("Ocurrió un error al eliminar el producto");
+        }
     };
+    
     
     
     
@@ -173,27 +184,27 @@ const TableComponent: React.FC = () => {
         editable: true,
     },
     {
-        title: 'Alto',
-        dataIndex: 'alto',
-        width: '10%',
-        editable: true,
-    },
-    {
         title: 'Ancho',
         dataIndex: 'ancho',
         width: '10%',
         editable: true,
     },
     {
+        title: 'Alto',
+        dataIndex: 'alto',
+        width: '10%',
+        editable: true,
+    },
+    {
         title: 'Rin',
         dataIndex: 'rin',
-        width: '10%',
+        width: '5%',
         editable: true,
     },
     {
         title: 'Costo',
         dataIndex: 'costo',
-        width: '5%',
+        width: '8%',
         editable: true,
     },
     {
@@ -215,7 +226,7 @@ const TableComponent: React.FC = () => {
                     <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)} className='mr-10'>
                         Editar
                     </Typography.Link>
-                    <Typography.Link disabled={editingKey !== ''} onClick={() => deleteRow(record)}>
+                    <Typography.Link  onClick={() => deleteRow(record)}>
                         Eliminar
                     </Typography.Link>
                 </>

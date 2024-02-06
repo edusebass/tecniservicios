@@ -16,8 +16,13 @@ const añadirProducto = async ( data: any) => {
     await apiUtils.postData(`http://localhost:1000/api/productos/`, data)
 }
 
+const eliminarProducto = async ( _id:string) => {
+    await apiUtils.deleteData(`http://localhost:1000/api/productos/${_id}`)
+}
+
 export const productosApi = {
     listarProductos,
     editarProducto,
-    añadirProducto
+    añadirProducto,
+    eliminarProducto
 };
