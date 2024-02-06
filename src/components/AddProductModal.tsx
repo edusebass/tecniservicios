@@ -52,9 +52,9 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
                 <Form.Item label="Costo" name="costo">
                     <Input />
                 </Form.Item>
-                <Form.Item label="Cantidad" name="cantidad">
-                    <Input />
-                </Form.Item>
+                    {/* <Form.Item label="Cantidad" name="cantidad">
+                        <Input />
+                    </Form.Item> */}
                 
             </Form>
         </Modal>
