@@ -3,21 +3,21 @@ import { apiUtils } from '../utils/apiUtils';
 
 const listarProductos = async () => {
     // Lógica para obtener productos desde la API
-    const response = await apiUtils.fetchData('http://localhost:1000/api/productos');
+    const response = await apiUtils.fetchData(`${import.meta.env.VITE_BACKEND_URL}` + '/api/productos');
     return response.json();
 };
 
 const editarProducto = async (_id: string, data: any) => {
     // Lógica para editar un producto en la API
-    await apiUtils.putData(`http://localhost:1000/api/productos/${_id}`, data);
+    await apiUtils.putData(`${import.meta.env.VITE_BACKEND_URL}` + `/api/productos/${_id}`, data);
 };
 
 const añadirProducto = async ( data: any) => {
-    await apiUtils.postData(`http://localhost:1000/api/productos/`, data)
+    await apiUtils.postData(`${import.meta.env.VITE_BACKEND_URL}` + '/api/productos', data)
 }
 
 const eliminarProducto = async ( _id:string) => {
-    await apiUtils.deleteData(`http://localhost:1000/api/productos/${_id}`)
+    await apiUtils.deleteData(`${import.meta.env.VITE_BACKEND_URL}` + `/api/productos/${_id}`)
 }
 
 export const productosApi = {
