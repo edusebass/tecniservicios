@@ -1,5 +1,5 @@
 // components/AddProductModal.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Modal } from 'antd';
 
 interface AddProductModalProps {
@@ -9,9 +9,11 @@ interface AddProductModalProps {
 }
 
 const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, onAdd }) => {
+    const [buttonOK, setbuttonOK] = useState(false)
     const [form] = Form.useForm();
 
     const handleOk = async () => {
+        setbuttonOK(true)
         try {
             const values = await form.validateFields();
             await onAdd(values);
@@ -19,6 +21,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
         } catch (error) {
             console.error('Error al validar campos del formulario:', error);
         }
+        setbuttonOK(false)
     };
 
     return (
@@ -28,7 +31,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
             onCancel={onCancel}
             onOk={handleOk}
             destroyOnClose
-            okButtonProps={{className: "bg-blue-600"}}
+            okButtonProps={{className: "bg-blue-600", loading: buttonOK}}
         >
             <Form form={form} layout="vertical">
                 <Form.Item label="Marca" name="marca" required>
