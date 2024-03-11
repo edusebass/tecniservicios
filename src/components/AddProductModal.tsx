@@ -28,7 +28,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
     const handleInputChange = (fieldName: any, e:any) => {
         // Convierte el valor a mayúsculas y actualiza el estado del formulario
         form.setFieldsValue({ [fieldName]: e.target.value.toUpperCase() });
-      };
+    };
 
     return (
         <Modal
@@ -46,7 +46,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
                 <Form.Item label="Labrado" name="labrado" required>
                     <Input onChange={(e) => handleInputChange('labrado', e)}/>
                 </Form.Item>
-                <Form.Item label="Caracteristicas" name="caracteristicas" required>
+                <Form.Item label="Caracteristicas" name="caracteristicas" >
                     <Input onChange={(e) => handleInputChange('caracteristicas', e)}/>
                 </Form.Item>
                 <section className='flex'>

@@ -110,6 +110,8 @@ const TableComponent: React.FC = () => {
         ...filterValues,
         [name]: value,
         });
+
+        // form.setFieldsValue({ [name]: value.target.value.toUpperCase() })
     };
 
     const filterTableData = () => {
@@ -131,19 +133,35 @@ const TableComponent: React.FC = () => {
         try {
             const row = (await form.validateFields()) as Item;
     
+            // Convierte a mayúsculas los valores de las propiedades específicas
+            if (row.marca) {
+                row.marca = row.marca.toUpperCase();
+            }
+    
+            if (row.labrado) {
+                row.labrado = row.labrado.toUpperCase();
+            }
+    
+            if (row.caracteristicas) {
+                row.caracteristicas = row.caracteristicas.toUpperCase();
+            }
+    
+            // Actualiza la tabla localmente
             setData((prevData) =>
                 prevData.map((item) => (item._id === _id ? { ...item, ...row } : item))
             );
     
+            // Realiza la acción de edición en la API
             await productosApi.editarProducto(_id, row);
     
+            // Finaliza la edición
             setEditingKey('');
             message.success('Producto editado');
         } catch (errInfo) {
             console.log('Validate Failed:', errInfo);
             message.error('Producto no editado');
         }
-        console.log(editingKey)
+        console.log(editingKey);
     };
     
     
@@ -214,10 +232,12 @@ const TableComponent: React.FC = () => {
             const editable = isEditing(record);
             return editable ? (
             <span>
-                <Typography.Link onClick={() => save(record._id)} style={{ marginRight: 8 }}>
-                    Save
+                <Typography.Link style={{ marginRight: 8 }}>
+                    <Popconfirm title="Seguro que quieres guardar?" onConfirm={() => save(record._id)} okButtonProps={{className: "bg-blue-600"}}>
+                        <a>Guardar</a>
+                    </Popconfirm>
                 </Typography.Link>
-                <Popconfirm title="Sure to cancel?" onConfirm={cancel} okButtonProps={{className: "bg-blue-600"}}>
+                <Popconfirm title="Seguro que quieres cancelar?" onConfirm={cancel} okButtonProps={{className: "bg-blue-600"}}>
                     <a>Cancel</a>
                 </Popconfirm>
             </span>
@@ -226,8 +246,10 @@ const TableComponent: React.FC = () => {
                     <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)} className='mr-10'>
                         Editar
                     </Typography.Link>
-                    <Typography.Link  onClick={() => deleteRow(record)}>
-                        Eliminar
+                    <Typography.Link>
+                        <Popconfirm title="Seguro que quieres eliminarlo?" onConfirm={() => deleteRow(record)} okButtonProps={{className: "bg-blue-600"}}>
+                            <a>Eliminar</a>
+                        </Popconfirm>
                     </Typography.Link>
                 </>
             );
