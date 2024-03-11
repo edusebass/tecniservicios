@@ -20,9 +20,15 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
             form.resetFields();
         } catch (error) {
             console.error('Error al validar campos del formulario:', error);
+        } finally {
+            setbuttonOK(false)
         }
-        setbuttonOK(false)
     };
+
+    const handleInputChange = (fieldName: any, e:any) => {
+        // Convierte el valor a mayúsculas y actualiza el estado del formulario
+        form.setFieldsValue({ [fieldName]: e.target.value.toUpperCase() });
+      };
 
     return (
         <Modal
@@ -35,13 +41,13 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
         >
             <Form form={form} layout="vertical">
                 <Form.Item label="Marca" name="marca" required>
-                    <Input />
+                    <Input onChange={(e) => handleInputChange('marca', e)} />
                 </Form.Item>
                 <Form.Item label="Labrado" name="labrado" required>
-                    <Input />
+                    <Input onChange={(e) => handleInputChange('labrado', e)}/>
                 </Form.Item>
                 <Form.Item label="Caracteristicas" name="caracteristicas" required>
-                    <Input />
+                    <Input onChange={(e) => handleInputChange('caracteristicas', e)}/>
                 </Form.Item>
                 <section className='flex'>
                     <Form.Item label="Ancho" name="ancho" rules={[{ pattern: /^\d+$/, message: 'Ingresa solo números' }]} required>
