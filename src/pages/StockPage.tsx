@@ -314,9 +314,9 @@ const TableComponent: React.FC = () => {
                 dataSource={filteredData}
                 columns={mergedColumns}
                 rowClassName='editable-row'
-                pagination={{
-                    onChange: cancel,
-                }}
+                // pagination={{
+                //     onChange: cancel,
+                // }}
             />
         </Form>
         </main>
