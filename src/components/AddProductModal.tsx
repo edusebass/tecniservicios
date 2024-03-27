@@ -66,6 +66,11 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
                 >
                     <Input />
                 </Form.Item>
+                <Form.Item label="Linkimg" name="linkimg" 
+                    required
+                >
+                    <Input />
+                </Form.Item>
                 {/* <Form.Item label="Cantidad" name="cantidad">
                     <Input />
                 </Form.Item> */}
