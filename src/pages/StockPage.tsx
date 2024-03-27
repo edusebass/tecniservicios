@@ -14,6 +14,7 @@ interface Item {
     ancho: string;
     rin: string;
     costo: string;
+    linkimg: string
 }
 
 const TableComponent: React.FC = () => {
@@ -27,6 +28,7 @@ const TableComponent: React.FC = () => {
         ancho: '',
         alto: '',
         rin: '',
+        labrado: ''
     });
     const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -58,6 +60,7 @@ const TableComponent: React.FC = () => {
             ancho: item.ancho,
             rin: item.rin,
             costo: item.costo,
+            linkimg: item?.linkimg,
             }));
 
             originData.length = 0;
@@ -119,7 +122,8 @@ const TableComponent: React.FC = () => {
         return (
             item.ancho.toString().includes(filterValues.ancho) &&
             item.alto.toString().includes(filterValues.alto) &&
-            item.rin.toString().includes(filterValues.rin)
+            item.rin.toString().includes(filterValues.rin) &&
+            item.labrado.toString().includes(filterValues.labrado) 
         );
         });
         setFilteredData(filtered);
@@ -186,31 +190,31 @@ const TableComponent: React.FC = () => {
     {
         title: 'Marca',
         dataIndex: 'marca',
-        width: '15%',
+        width: '10%',
         editable: true,
     },
     {
         title: 'Labrado',
         dataIndex: 'labrado',
-        width: '15%',
+        width: '9%',
         editable: true,
     },
     {
         title: 'Características',
         dataIndex: 'caracteristicas',
-        width: '20%',
+        width: '7%',
         editable: true,
     },
     {
         title: 'Ancho',
         dataIndex: 'ancho',
-        width: '10%',
+        width: '4%',
         editable: true,
     },
     {
         title: 'Alto',
         dataIndex: 'alto',
-        width: '10%',
+        width: '4%',
         editable: true,
     },
     {
@@ -222,11 +226,19 @@ const TableComponent: React.FC = () => {
     {
         title: 'Costo',
         dataIndex: 'costo',
-        width: '8%',
+        width: '5%',
         editable: true,
     },
     {
+        title: 'Linkimg',
+        dataIndex: 'linkimg',
+        width: '8%',
+        editable: true,
+        ellipsis: true, 
+    },
+    {
         title: 'Acciones',
+        width: '10%',
         dataIndex: 'operation',
         render: (_: any, record: Item) => {
             const editable = isEditing(record);
@@ -278,6 +290,7 @@ const TableComponent: React.FC = () => {
         ancho: '',
         alto: '',
         rin: '',
+        labrado: ''
         });
     };
 
@@ -307,6 +320,13 @@ const TableComponent: React.FC = () => {
                         placeholder="Rin"
                         value={filterValues.rin}
                         onChange={(e) => handleInputChange('rin', e.target.value)}
+                    />
+                </Form.Item>
+                <Form.Item label="Labrado" style={{marginLeft:"1rem"}}>
+                    <Input
+                        placeholder="Labrado"
+                        value={filterValues.labrado}
+                        onChange={(e) => handleInputChange('labrado', e.target.value)}
                     />
                 </Form.Item>
 
