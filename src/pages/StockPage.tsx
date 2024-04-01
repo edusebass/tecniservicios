@@ -14,7 +14,9 @@ interface Item {
     ancho: string;
     rin: string;
     costo: string;
-    linkimg: string
+    linkimg: string;
+    cantidad: string;
+    pvp: string;
 }
 
 const TableComponent: React.FC = () => {
@@ -61,6 +63,8 @@ const TableComponent: React.FC = () => {
             rin: item.rin,
             costo: item.costo,
             linkimg: item?.linkimg,
+            cantidad: item.cantidad,
+            pvp: item.pvp,
             }));
 
             originData.length = 0;
@@ -237,6 +241,20 @@ const TableComponent: React.FC = () => {
         ellipsis: true, 
     },
     {
+        title: 'Cantidad',
+        dataIndex: 'cantidad',
+        width: '8%',
+        editable: true,
+        ellipsis: true, 
+    },
+    {
+        title: 'PVP',
+        dataIndex: 'pvp',
+        width: '8%',
+        editable: true,
+        ellipsis: true, 
+    },
+    {
         title: 'Acciones',
         width: '10%',
         dataIndex: 'operation',
@@ -260,7 +278,9 @@ const TableComponent: React.FC = () => {
                     </Typography.Link>
                     <Typography.Link>
                         <Popconfirm title="Seguro que quieres eliminarlo?" onConfirm={() => deleteRow(record)} okButtonProps={{className: "bg-blue-600"}}>
-                            <a>Eliminar</a>
+                            <a>
+                                <p className='text-red-500 hover:text-red-300'>Eliminar</p>
+                            </a>
                         </Popconfirm>
                     </Typography.Link>
                 </>

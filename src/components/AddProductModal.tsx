@@ -1,6 +1,6 @@
 // components/AddProductModal.tsx
 import React, { useState } from 'react';
-import { Form, Input, Modal } from 'antd';
+import { Form, Input, InputNumber, Modal } from 'antd';
 
 interface AddProductModalProps {
     visible: boolean;
@@ -16,6 +16,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
         setbuttonOK(true)
         try {
             const values = await form.validateFields();
+            console.log(values)
             await onAdd(values);
             form.resetFields();
         } catch (error) {
@@ -49,7 +50,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
                 <Form.Item label="Caracteristicas" name="caracteristicas" >
                     <Input onChange={(e) => handleInputChange('caracteristicas', e)}/>
                 </Form.Item>
-                <section className='flex'>
+                <section className='flex items-center justify-between gap-9'>
                     <Form.Item label="Ancho" name="ancho" rules={[{ pattern: /^\d+$/, message: 'Ingresa solo números' }]} required>
                         <Input />
                     </Form.Item>
@@ -61,11 +62,23 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
                         <Input />
                     </Form.Item>
                 </section>
-                <Form.Item label="Costo" name="costo" rules={[{ pattern: /^\d+(\.\d+)?$/, message: 'Ingresa números o números decimales con punto' }]}
-                    required
-                >
-                    <Input />
-                </Form.Item>
+                <section className='flex items-center justify-start gap-10'>
+                    <Form.Item label="Costo" name="costo" rules={[{ pattern: /^\d+(\.\d+)?$/, message: 'Ingresa números o números decimales con punto' }]}
+                        required
+                    >
+                        <InputNumber min={1} />
+                    </Form.Item>
+                    <Form.Item label="PVP" name="pvp" rules={[{ pattern: /^\d+(\.\d+)?$/, message: 'Ingresa números o números decimales con punto' }]}
+                        required
+                    >
+                        <InputNumber min={1}/>
+                    </Form.Item>
+                    <Form.Item label="Cantidad" name="cantidad" rules={[{ pattern: /^\d+(\.\d+)?$/, message: 'Ingresa números o números decimales con punto' }]}
+                            required
+                        >
+                        <InputNumber min={1}/>
+                    </Form.Item>
+                </section>
                 <Form.Item label="Linkimg" name="linkimg" 
                     required
                 >
