@@ -212,25 +212,25 @@ const TableComponent: React.FC = () => {
     {
         title: 'Ancho',
         dataIndex: 'ancho',
-        width: '4%',
+        width: '8%',
         editable: true,
     },
     {
         title: 'Alto',
         dataIndex: 'alto',
-        width: '4%',
+        width: '8%',
         editable: true,
     },
     {
         title: 'Rin',
         dataIndex: 'rin',
-        width: '5%',
+        width: '8%',
         editable: true,
     },
     {
         title: 'Costo',
         dataIndex: 'costo',
-        width: '5%',
+        width: '8%',
         editable: true,
     },
     {
