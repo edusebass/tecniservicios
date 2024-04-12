@@ -1,6 +1,6 @@
 // components/AddProductModal.tsx
 import React, { useState } from 'react';
-import { Form, Input, InputNumber, Modal } from 'antd';
+import { Form, Input, InputNumber, Modal, message } from 'antd';
 
 interface AddProductModalProps {
     visible: boolean;
@@ -13,18 +13,27 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
     const [form] = Form.useForm();
 
     const handleOk = async () => {
-        setbuttonOK(true)
+        setbuttonOK(true);
         try {
             const values = await form.validateFields();
-            console.log(values)
+            
+            // Verifica si el valor de alto está vacío
+            if (values.alto === undefined || values.alto === '') {
+                // Si está vacío, establece el valor predeterminado como null
+                values.alto = null;
+            }
+    
+            console.log(values);
             await onAdd(values);
             form.resetFields();
-        } catch (error) {
+        } catch (error: any) {
+            message.error(error);
             console.error('Error al validar campos del formulario:', error);
         } finally {
-            setbuttonOK(false)
+            setbuttonOK(false);
         }
     };
+    
 
     const handleInputChange = (fieldName: any, e:any) => {
         // Convierte el valor a mayúsculas y actualiza el estado del formulario
@@ -54,7 +63,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ visible, onCancel, on
                     <Form.Item label="Ancho" name="ancho" rules={[{ pattern: /^\d+$/, message: 'Ingresa solo números' }]} required>
                         <Input />
                     </Form.Item>
-                    <Form.Item label="Alto" name="alto" rules={[{ pattern: /^\d+$/, message: 'Ingresa solo números' }]} required>
+                    <Form.Item label="Alto" name="alto" rules={[{ pattern: /^\d+$/, message: 'Ingresa solo números' }]} >
                         <Input /> 
                     </Form.Item>
                     
