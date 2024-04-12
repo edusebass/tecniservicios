@@ -58,7 +58,7 @@ const TableComponent: React.FC = () => {
             marca: item.marca,
             labrado: item.labrado,
             caracteristicas: item.caracteristicas,
-            alto: item.alto,
+            alto: item.alto ? item.alto : "", 
             ancho: item.ancho,
             rin: item.rin,
             costo: item.costo,
@@ -176,6 +176,7 @@ const TableComponent: React.FC = () => {
     
     const handleAddProduct = async (values: Item) => {
         try {
+            console.log(values)
             await productosApi.añadirProducto(values);
 
             const newData = [...data, values];
