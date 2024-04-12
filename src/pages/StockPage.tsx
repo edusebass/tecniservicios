@@ -125,7 +125,7 @@ const TableComponent: React.FC = () => {
         const filtered = data.filter((item) => {
         return (
             item.ancho.toString().includes(filterValues.ancho) &&
-            item.alto.toString().includes(filterValues.alto) &&
+            item?.alto?.toString()?.includes(filterValues?.alto) &&
             item.rin.toString().includes(filterValues.rin) &&
             item.labrado.toString().includes(filterValues.labrado) 
         );
