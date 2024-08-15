@@ -20,9 +20,14 @@ const eliminarProducto = async ( _id:string) => {
     await apiUtils.deleteData(`${import.meta.env.VITE_BACKEND_URL}` + `/api/productos/${_id}`)
 }
 
+const buscarProductoEspecifico = async (data:any) => {
+    await apiUtils.postData(`${import.meta.env.VITE_BACKEND_URL}` + `/api/productos-especifico`, data)
+}
+
 export const productosApi = {
     listarProductos,
     editarProducto,
     añadirProducto,
-    eliminarProducto
+    eliminarProducto,
+    buscarProductoEspecifico
 };
