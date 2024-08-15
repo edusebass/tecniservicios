@@ -37,7 +37,6 @@ const TableComponent: React.FC = () => {
   const [filteredData, setFilteredData] = useState<Item[]>([]);
   const [isPasswordModalVisible, setIsPasswordModalVisible] = useState(true); // Modal de contraseña
 
-  const pass = import.meta.env.PASS;
   const handlePasswordSubmit = (password: string) => {
     if (password === import.meta.env.VITE_PASS) {
       setIsPasswordModalVisible(false);
@@ -127,14 +126,14 @@ const TableComponent: React.FC = () => {
     }
   };
 
-  const handleInputChange = (name: string, value: string) => {
-    setFilterValues({
-      ...filterValues,
-      [name]: value,
-    });
+  //   const handleInputChange = (name: string, value: string) => {
+  //     setFilterValues({
+  //       ...filterValues,
+  //       [name]: value,
+  //     });
 
-    // form.setFieldsValue({ [name]: value.target.value.toUpperCase() })
-  };
+  //     // form.setFieldsValue({ [name]: value.target.value.toUpperCase() })
+  //   };
 
   const filterTableData = () => {
     const filtered = data.filter((item) => {
