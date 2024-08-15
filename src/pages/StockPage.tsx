@@ -46,7 +46,7 @@ const TableComponent: React.FC = () => {
     }
   };
 
-  const [filterValues, setFilterValues] = useState({
+  const [filterValues] = useState({
     ancho: "",
     alto: "",
     rin: "",
