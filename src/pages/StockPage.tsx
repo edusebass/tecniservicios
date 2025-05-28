@@ -467,7 +467,8 @@ const TableComponent: React.FC = () => {
         <Form
           onFinish={() => {
             if (!selectedItem) return;
-            const msg = `*Producto:*\nMarca: ${selectedItem.marca}\nLabrado: ${selectedItem.labrado}\nCaracterísticas: ${selectedItem.caracteristicas}\nAncho: ${selectedItem.ancho}\nAlto: ${selectedItem.alto}\nRin: ${selectedItem.rin}\nPVP: $${selectedItem.pvp} \n IMAGEN: ${selectedItem.linkimg ? selectedItem.linkimg : "No hay imagen"}`;
+            // const msg = `*Producto:*\nMarca: ${selectedItem.marca}\nLabrado: ${selectedItem.labrado}\nCaracterísticas: ${selectedItem.caracteristicas}\nAncho: ${selectedItem.ancho}\nAlto: ${selectedItem.alto}\nRin: ${selectedItem.rin}\nPVP: $${selectedItem.pvp} \n IMAGEN: ${selectedItem.linkimg ? selectedItem.linkimg : "No hay imagen"}`;
+            const msg = `*Producto:*\nMarca: ${selectedItem.marca}\nLabrado: ${selectedItem.labrado}\nCaracterísticas: ${selectedItem.caracteristicas}\nAncho: ${selectedItem.ancho}\nAlto: ${selectedItem.alto}\nRin: ${selectedItem.rin}\nPVP: $${selectedItem.pvp}`;
             // Elimina cualquier caracter que no sea número
             const number = whatsappNumber.replace(/\D/g, "");
             // Usa wa.me y NO pongas el signo +
