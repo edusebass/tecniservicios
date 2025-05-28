@@ -348,8 +348,8 @@ const TableComponent: React.FC = () => {
   return (
     <>
       <div className="overflow-x-auto">
-        <h1 className="text-lg">Tabla de Productos</h1>
-        <div className="mb-4 flex gap-4 items-center flex-wrap sm:flex-nowrap">
+        <h1 className="text-lg ml-4 mb-2 ">Lista de stock</h1>
+        <div className="mb-4 ml-4 flex gap-4 items-center flex-wrap sm:flex-nowrap sm:items-center">
           <Button
             type="primary"
             className="bg-blue-600"
@@ -358,7 +358,7 @@ const TableComponent: React.FC = () => {
             Agregar producto
           </Button>
         </div>
-        <div className="flex flex-wrap justify-center gap-4 my-4">
+        <div className="flex flex-wrap justify-center gap-2 my-4">
           <div className="flex flex-col items-center">
             <label className="mb-1 font-semibold text-sm">Ancho</label>
             <Input
@@ -436,7 +436,7 @@ const TableComponent: React.FC = () => {
 
       {/* Modal de detalle */}
       <Modal
-        title="Detalle del Producto"
+        title="Detalle de la llanta"
         visible={isDetailModalVisible}
         onCancel={() => setIsDetailModalVisible(false)}
         footer={[
