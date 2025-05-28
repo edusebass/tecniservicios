@@ -357,31 +357,43 @@ const TableComponent: React.FC = () => {
           >
             Agregar producto
           </Button>
-          <Input
-            name="ancho"
-            placeholder="Buscar Ancho"
-            value={filterValues.ancho}
-            onChange={handleFilterChange}
-            style={{ width: 120 }}
-            allowClear
-          />
-          <Input
-            name="alto"
-            placeholder="Buscar Alto"
-            value={filterValues.alto}
-            onChange={handleFilterChange}
-            style={{ width: 120 }}
-            allowClear
-          />
-          <Input
-            name="rin"
-            placeholder="Buscar Rin"
-            value={filterValues.rin}
-            onChange={handleFilterChange}
-            style={{ width: 120 }}
-            allowClear
-          />
         </div>
+        <div className="flex flex-wrap justify-center gap-4 my-4">
+          <div className="flex flex-col items-center">
+            <label className="mb-1 font-semibold text-sm">Ancho</label>
+            <Input
+              name="ancho"
+              placeholder="Buscar Ancho"
+              value={filterValues.ancho}
+              onChange={handleFilterChange}
+              style={{ width: 120 }}
+              allowClear
+            />
+          </div>
+          <div className="flex flex-col items-center">
+            <label className="mb-1 font-semibold text-sm">Alto</label>
+            <Input
+              name="alto"
+              placeholder="Buscar Alto"
+              value={filterValues.alto}
+              onChange={handleFilterChange}
+              style={{ width: 120 }}
+              allowClear
+            />
+          </div>
+          <div className="flex flex-col items-center">
+            <label className="mb-1 font-semibold text-sm">Rin</label>
+            <Input
+              name="rin"
+              placeholder="Buscar Rin"
+              value={filterValues.rin}
+              onChange={handleFilterChange}
+              style={{ width: 120 }}
+              allowClear
+            />
+          </div>
+        </div>
+
         <div className="mt-10 w-full" style={{ minWidth: 320 }}>
           <Form form={form} component={false}>
             <div style={{ overflowX: "auto" }}>
