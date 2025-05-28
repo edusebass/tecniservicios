@@ -57,6 +57,7 @@ const TableComponent: React.FC = () => {
   const handlePasswordSubmit = (password: string) => {
     if (password === import.meta.env.VITE_PASS) {
       setIsPasswordModalVisible(false);
+      localStorage.setItem("tecniservicios_auth", "ok"); // Guarda el acceso
       message.success("Contraseña correcta, puedes continuar.");
     } else {
       message.error("Contraseña incorrecta.");
@@ -101,6 +102,13 @@ const TableComponent: React.FC = () => {
     return () => {
       originData.length = 0;
     };
+  }, []);
+
+  // Si ya está autenticado, no mostrar el modal de contraseña
+  useEffect(() => {
+    if (localStorage.getItem("tecniservicios_auth") === "ok") {
+      setIsPasswordModalVisible(false);
+    }
   }, []);
 
   // Maneja el cambio en los inputs de filtro
