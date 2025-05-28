@@ -467,7 +467,7 @@ const TableComponent: React.FC = () => {
         <Form
           onFinish={() => {
             if (!selectedItem) return;
-            const msg = `*Producto:*\nMarca: ${selectedItem.marca}\nLabrado: ${selectedItem.labrado}\nCaracterísticas: ${selectedItem.caracteristicas}\nAncho: ${selectedItem.ancho}\nAlto: ${selectedItem.alto}\nRin: ${selectedItem.rin}\nPVP: $${selectedItem.pvp}`;
+            const msg = `*Producto:*\nMarca: ${selectedItem.marca}\nLabrado: ${selectedItem.labrado}\nCaracterísticas: ${selectedItem.caracteristicas}\nAncho: ${selectedItem.ancho}\nAlto: ${selectedItem.alto}\nRin: ${selectedItem.rin}\nPVP: $${selectedItem.pvp} \n IMAGEN: ${selectedItem.linkimg ? selectedItem.linkimg : "No hay imagen"}`;
             // Elimina cualquier caracter que no sea número
             const number = whatsappNumber.replace(/\D/g, "");
             // Usa wa.me y NO pongas el signo +
@@ -485,7 +485,7 @@ const TableComponent: React.FC = () => {
             ]}
           >
             <Input
-              placeholder="Ej: 5930986572316"
+              placeholder="Ej: 0986572316"
               value={whatsappNumber}
               onChange={e => setWhatsappNumber(e.target.value)}
             />
