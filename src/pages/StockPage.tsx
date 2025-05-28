@@ -425,7 +425,7 @@ const TableComponent: React.FC = () => {
           </Button>,
           <Button
             key="share"
-            type="primary"
+            type="default"
             onClick={() => setIsShareModalVisible(true)}
           >
             Compartir por WhatsApp
@@ -491,7 +491,7 @@ const TableComponent: React.FC = () => {
             />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" block>
+            <Button type="default" htmlType="submit" block>
               Compartir
             </Button>
           </Form.Item>
