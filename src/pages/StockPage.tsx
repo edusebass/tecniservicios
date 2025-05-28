@@ -48,6 +48,8 @@ const TableComponent: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
+  const [isShareModalVisible, setIsShareModalVisible] = useState(false);
+  const [whatsappNumber, setWhatsappNumber] = useState("");
 
   const isEditing = (record: Item) => editingKey === record._id;
 
@@ -421,6 +423,13 @@ const TableComponent: React.FC = () => {
           <Button key="close" onClick={() => setIsDetailModalVisible(false)}>
             Cerrar
           </Button>,
+          <Button
+            key="share"
+            type="primary"
+            onClick={() => setIsShareModalVisible(true)}
+          >
+            Compartir por WhatsApp
+          </Button>,
         ]}
       >
         {selectedItem && (
@@ -430,23 +439,63 @@ const TableComponent: React.FC = () => {
             <p><b>Características:</b> {selectedItem.caracteristicas}</p>
             <p><b>Ancho:</b> {selectedItem.ancho}</p>
             <p><b>Alto:</b> {selectedItem.alto}</p>
-            <p><b>Rin:</b> {selectedItem.rin}</p>
-            <p><b>PVP:</b> {selectedItem.pvp}</p>
-            <p>
-              <b>Imagen:</b><br />
+            <p><b>Rin:</b>  {selectedItem.rin}</p>
+            <p><b>PVP:</b> $ {selectedItem.pvp}</p>
+            <br />
+            <div style={{ textAlign: "center" }}>
               {selectedItem.linkimg ? (
                 <img
                   src={selectedItem.linkimg}
                   alt="Producto"
-                  style={{ maxWidth: "100%", maxHeight: 200, margin: "10px 0", borderRadius: 8 }}
+                  style={{ maxWidth: "100%", maxHeight: 200, margin: "10px 0", borderRadius: 8, display: "inline-block" }}
                 />
               ) : (
                 <span>No hay imagen</span>
               )}
-            </p>
-
+            </div>
           </div>
         )}
+      </Modal>
+
+      {/* Modal para compartir */}
+      <Modal
+        title="Compartir por WhatsApp"
+        visible={isShareModalVisible}
+        onCancel={() => setIsShareModalVisible(false)}
+        footer={null}
+      >
+        <Form
+          onFinish={() => {
+            if (!selectedItem) return;
+            const msg = `*Producto:*\nMarca: ${selectedItem.marca}\nLabrado: ${selectedItem.labrado}\nCaracterísticas: ${selectedItem.caracteristicas}\nAncho: ${selectedItem.ancho}\nAlto: ${selectedItem.alto}\nRin: ${selectedItem.rin}\nPVP: $${selectedItem.pvp}`;
+            // Elimina cualquier caracter que no sea número
+            const number = whatsappNumber.replace(/\D/g, "");
+            // Usa wa.me y NO pongas el signo +
+            const url = `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
+            window.open(url, "_blank");
+            setIsShareModalVisible(false);
+          }}
+        >
+          <Form.Item
+            label="Número de WhatsApp"
+            name="whatsapp"
+            rules={[
+              { required: true, message: "Ingrese el número de WhatsApp" },
+              { pattern: /^\d{10,15}$/, message: "Ingrese un número válido" },
+            ]}
+          >
+            <Input
+              placeholder="Ej: 5930986572316"
+              value={whatsappNumber}
+              onChange={e => setWhatsappNumber(e.target.value)}
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" block>
+              Compartir
+            </Button>
+          </Form.Item>
+        </Form>
       </Modal>
 
       <AddProductModal
